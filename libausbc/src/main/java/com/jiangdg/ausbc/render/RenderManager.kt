@@ -93,7 +93,7 @@ class RenderManager(
         SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
     }
     private val mCameraDir by lazy {
-        "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}/Camera"
+        "${context.getExternalFilesDir(null)?.absolutePath}/Frontier"
     }
 
     init {

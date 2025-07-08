@@ -1,75 +1,94 @@
 apply plugin: 'com.android.library'
-
-import org.apache.tools.ant.taskdefs.condition.Os
+apply plugin: 'maven-publish' // JitPack 배포를 위해 추가
 
 android {
-	compileSdkVersion rootProject.ext.versionCompiler
-	buildToolsVersion rootProject.ext.versionBuildTool
+    // AGP 7.0 이상에서 필수. 실제 프로젝트의 패키지명에 맞게 변경하세요.
+    namespace '"com.jiangdg.uvccamera"' 
 
-	compileOptions {
-		sourceCompatibility rootProject.ext.javaSourceCompatibility
-		targetCompatibility rootProject.ext.javaTargetCompatibility
-	}
+    // 최상위 build.gradle의 ext 블록에서 버전 정보 가져옴
+    compileSdkVersion rootProject.ext.versionCompiler 
+    // buildToolsVersion rootProject.ext.versionBuildTool // 이 라인은 제거합니다. AGP가 자동으로 관리합니다.
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.javaSourceCompatibility
+        targetCompatibility rootProject.ext.javaTargetCompatibility
+    }
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
-		targetSdkVersion rootProject.ext.versionTarget
+        targetSdkVersion rootProject.ext.versionTarget
+        
+        // NDK/Native 코드 빌드 설정 (필수!)
+        externalNativeBuild {
+            // CMake를 사용하는 경우 (대부분의 현대적인 Android NDK 프로젝트)
+            cmake {
+                // 추가 C/C++ 컴파일러 플래그 (필요한 경우)
+                cppFlags "" 
+            }
+            // 또는 ndk-build (Android.mk)를 사용하는 경우
+            // ndkBuild {
+            //     // 필요한 ABI 필터 지정 (예시)
+            //     abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64' 
+            // }
+        }
     }
 
-	lintOptions {
-		checkReleaseBuilds false
-		// Or, if you prefer, you can continue to check for errors in release builds,
-		// but continue the build even when errors are found:
-		abortOnError false
-		// The demo app does not have translations.
-		disable 'MissingTranslation'
-	}
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        disable 'MissingTranslation'
+    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+        debug {
+            // 디버그 빌드 타입에 대한 추가 설정이 필요한 경우 여기에 추가
+        }
+    }
+
+    // `externalNativeBuild` 블록으로 NDK 빌드 파일 경로 지정 (필수!)
+    externalNativeBuild {
+        // CMake를 사용하는 경우, CMakeLists.txt 파일의 경로를 지정합니다.
+        // 예를 들어, src/main/cpp/CMakeLists.txt 에 있다면:
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt') 
+        }
+        // 또는 ndk-build (Android.mk)를 사용하는 경우, Android.mk 파일의 경로를 지정합니다.
+        // ndkBuild {
+        //     path file('src/main/jni/Android.mk') 
+        // }
     }
 }
 
-tasks.withType(JavaCompile) {
-	compileTask -> compileTask.dependsOn ndkBuild
-}
-
-String getNdkBuildPath() {
-	def ndkBuildingDir = System.getenv("NDK_HOME")
-	if (ndkBuildingDir==null || ndkBuildingDir.isEmpty()) {
-		Properties properties = new Properties()
-		properties.load(project.rootProject.file('local.properties').newDataInputStream())
-		ndkBuildingDir = properties.getProperty("ndk.dir")
-	}
-	def ndkBuildPath = ndkBuildingDir
-	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-		ndkBuildPath = ndkBuildingDir + '/ndk-build.cmd'
-	} else {
-		ndkBuildPath = ndkBuildingDir + '/ndk-build'
-	}
-	return ndkBuildPath
-}
-
-task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
-	println('executing ndkBuild')
-	def ndkBuildPath = getNdkBuildPath();
-	commandLine ndkBuildPath, '-j8', '-C', file('src/main').absolutePath
-}
-
-task ndkClean(type: Exec, description: 'clean JNI libraries') {
-	println('executing ndkBuild clean')
-	def ndkBuildPath = getNdkBuildPath();
-	commandLine ndkBuildPath, 'clean', '-C', file('src/main').absolutePath
-}
-
-clean.dependsOn 'ndkClean'
+// 이전의 수동 NDK 빌드 태스크와 의존성은 제거됩니다.
+// tasks.withType(JavaCompile) { compileTask -> compileTask.dependsOn ndkBuild }
+// String getNdkBuildPath() { ... }
+// task ndkBuild(...) { ... }
+// task ndkClean(...) { ... }
+// clean.dependsOn 'ndkClean' // clean task도 기본 Gradle clean에 의존하도록 변경
 
 dependencies {
     implementation fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
-	implementation "androidx.appcompat:appcompat:${androidXVersion}"
-	implementation 'com.elvishew:xlog:1.11.0'
-//	implementation project(path: ':libuvccommon')
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.androidXVersion}"
+    implementation 'com.elvishew:xlog:1.11.0'
+    // 필요하다면 주석 해제하여 사용:
+    // implementation project(path: ':libuvccommon') 
+}
+
+// JitPack을 위한 발행(publishing) 설정
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId 'com.github.starry6560' // GitHub 사용자 이름
+            artifactId 'libuvc' // 이 모듈의 아티팩트 ID
+            version rootProject.ext.versionNameString // 최상위 build.gradle의 버전 사용
+
+            afterEvaluate {
+                from components.release // Android 라이브러리 컴포넌트 포함
+            }
+        }
+    }
 }

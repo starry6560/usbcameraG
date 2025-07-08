@@ -74,7 +74,7 @@ class Mp4Muxer(
         SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
     }
     private val mCameraDir by lazy {
-        "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}/Camera"
+        "${context.getExternalFilesDir(null)?.absolutePath}/Frontier"
     }
 
     init {
@@ -83,7 +83,7 @@ class Mp4Muxer(
         try {
             if (path.isNullOrEmpty()) {
                 val date = mDateFormat.format(System.currentTimeMillis())
-                path = "$mCameraDir/VID_JJCamera_$date"
+                path = "$mCameraDir/fronierUSBcamera_$date"
             }
             mOriginalPath = path
             path = "${path}.mp4"
