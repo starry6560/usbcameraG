@@ -1,0 +1,7 @@
+jdk:
+  - openjdk8
+
+env:
+  global:
+    - ANDROID_NDK_HOME=/usr/local/android-ndk-r21d
+    - PATH=$ANDROID_NDK_HOME:$PATH
