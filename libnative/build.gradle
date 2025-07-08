@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
 }
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 31
@@ -53,4 +54,18 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId 'com.github.starry6560'
+            artifactId 'libnative' // 모듈 이름
+            version rootProject.ext.versionNameString // 또는 직접 "1.0.4"로 써도 됨
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
 }

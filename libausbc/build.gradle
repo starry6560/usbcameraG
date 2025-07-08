@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
 }
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion rootProject.ext.versionCompiler
@@ -40,4 +41,18 @@ dependencies {
 
     implementation project(path: ':libuvc')
     api project(path: ':libnative')
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId 'com.github.starry6560'
+            artifactId 'libausbc' // 모듈 이름
+            version rootProject.ext.versionNameString // 또는 직접 "1.0.4"로 써도 됨
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
 }

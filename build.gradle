@@ -30,7 +30,7 @@ ext {
     versionTarget = 34 // <-- 최신 SDK 버전으로 업데이트!
     minSdkVersion = 24 // <-- 최소 SDK 버전도 적절히 업데이트 (예: 24)
     versionCode = 126
-    versionNameString = '3.3.3'
+    versionNameString = '1.0.7'
     javaSourceCompatibility = JavaVersion.VERSION_17 // <-- Java 17로 업데이트!
     javaTargetCompatibility = JavaVersion.VERSION_17 // <-- Java 17로 업데이트!
 //    ndkVersion = '21.0.6113669' // NDK 버전은 나중에 externalNativeBuild에서 관리
