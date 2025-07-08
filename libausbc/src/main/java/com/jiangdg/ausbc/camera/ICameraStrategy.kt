@@ -69,7 +69,7 @@ abstract class ICameraStrategy(context: Context) : Handler.Callback {
         SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
     }
     protected val mCameraDir by lazy {
-       "${context.getExternalFilesDir(null)?.absolutePath}/Frontier"
+       "/storage/emulated/0/Android/data/com.usrlab.genio_frontier/app_flutter/Frontier"
     }
 
     private val mDeviceOrientation = object : OrientationEventListener(context) {

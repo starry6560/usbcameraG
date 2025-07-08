@@ -93,7 +93,7 @@ class RenderManager(
         SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
     }
     private val mCameraDir by lazy {
-        "${context.getExternalFilesDir(null)?.absolutePath}/Frontier"
+        "/storage/emulated/0/Android/data/com.usrlab.genio_frontier/app_flutter/Frontier"
     }
 
     init {
