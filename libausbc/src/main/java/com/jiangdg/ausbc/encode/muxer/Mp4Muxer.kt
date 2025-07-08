@@ -74,7 +74,7 @@ class Mp4Muxer(
         SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
     }
     private val mCameraDir by lazy {
-        "${context.getExternalFilesDir(null)?.absolutePath}/Frontier"
+        "${context?.getExternalFilesDir(null)?.absolutePath.orEmpty()}${File.separator}Frontier"
     }
 
     init {

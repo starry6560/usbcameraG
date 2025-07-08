@@ -288,7 +288,7 @@ class MultiCameraClient(ctx: Context, callback: IDeviceConnectCallBack?) {
             SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
         }
         protected val mCameraDir by lazy {
-             "${context.getExternalFilesDir(null)?.absolutePath}/Frontier"
+             "${ctx.getExternalFilesDir(null)?.absolutePath}/Frontier"
         }
 
         override fun handleMessage(msg: Message): Boolean {
