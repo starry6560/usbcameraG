@@ -3,5 +3,5 @@ jdk:
 
 env:
   global:
-    - ANDROID_NDK_HOME=/usr/local/android-ndk-r21d
-    - PATH=$ANDROID_NDK_HOME:$PATH
+    ANDROID_NDK_HOME: /usr/local/android-ndk-r21d  # 콜론(:)으로 키-값을 구분
+    PATH: "$ANDROID_NDK_HOME:$PATH"               # 값에 공백이나 특수 문자가 있을 경우 따옴표로 감싸는 것이 안전합니다.
