@@ -18,6 +18,7 @@ allprojects {
     repositories {
         google()
         jcenter() // jcenter() 대신 mavenCentral() 사용
+        mavenCentral()
         maven { url "https://jitpack.io" }
     }
 }
