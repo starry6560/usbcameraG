@@ -2,20 +2,22 @@
 buildscript {
     repositories {
         google()
-        mavenCentral() // jcenter() 대신 mavenCentral() 사용
+        jcenter()
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.0' // <-- AGP 버전 업데이트!
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1' // 이 플러그인이 최신 AGP와 호환되는지 확인 필요
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0' // Kotlin 버전 업데이트!
+       // JitPack의 기본 환경에 맞는 Android Gradle Plugin (AGP) 4.2.2로 변경
+        classpath 'com.android.tools.build:gradle:4.2.2' 
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1' // 필요한 경우
+        // JitPack의 기본 환경에 맞는 Kotlin Gradle Plugin 1.5.20으로 변경
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20' 
     }
 }
 
 allprojects {
     repositories {
         google()
-        mavenCentral() // jcenter() 대신 mavenCentral() 사용
+        jcenter() // jcenter() 대신 mavenCentral() 사용
         maven { url "https://jitpack.io" }
     }
 }
@@ -25,24 +27,28 @@ task clean(type: Delete) {
 }
 
 ext {
-    androidXVersion = '1.3.1' // 필요시 최신 버전으로
-    versionCompiler = 34 // <-- 최신 SDK 버전으로 업데이트!
-    versionTarget = 34 // <-- 최신 SDK 버전으로 업데이트!
-    minSdkVersion = 24 // <-- 최소 SDK 버전도 적절히 업데이트 (예: 24)
+ androidXVersion = '1.3.1' // 이 버전이 AGP 4.2.2와 호환되는지 확인
+    versionCompiler = 29 // compileSdk 29 (AGP 4.2.2와 호환)
+    versionTarget = 27 // targetSdk 27 (AGP 4.2.2와 호환)
+    minSdkVersion = 19
     versionCode = 126
-    versionNameString = '1.0.8'
-    javaSourceCompatibility = JavaVersion.VERSION_17 // <-- Java 17로 업데이트!
-    javaTargetCompatibility = JavaVersion.VERSION_17 // <-- Java 17로 업데이트!
-//    ndkVersion = '21.0.6113669' // NDK 버전은 나중에 externalNativeBuild에서 관리
-//    supportLibVersion = '27.1.1' // AndroidX 사용 시 필요 없을 수 있음
-//    versionBuildTool = '27.0.3' // <-- 이 라인 제거!
-    kotlinCoreVersion = '1.3.2' // 필요시 최신 버전으로
-    kotlinCoroutines = '1.3.9' // 필요시 최신 버전으로
-    materialVersion = '1.3.0' // 필요시 최신 버전으로
-    constraintlayoutVersion = '2.0.4' // 필요시 최신 버전으로
-    lifecycle_version = '2.2.0' // 필요시 최신 버전으로
-    quick_version= '2.9.50' // 필요시 최신 버전으로
-    dialog_version= '3.2.1' // 필요시 최신 버전으로
-    bugly_version = '3.4.4' // 필요시 최신 버전으로
-    bugly_native_version = '3.9.0' // 필요시 최신 버전으로
+    versionNameString = '1.0.10'
+    javaSourceCompatibility = JavaVersion.VERSION_1_8 // Java 8로 변경
+    javaTargetCompatibility = JavaVersion.VERSION_1_8 // Java 8로 변경
+    
+    // NDK 관련 설정 (JitPack에서 문제가 발생할 수 있음)
+    // JitPack 로그에 'buildToolsVersion 27.0.3' 경고가 있었으므로 다시 추가합니다.
+    versionBuildTool = '27.0.3' 
+
+    // 기타 라이브러리 버전도 AGP 4.2.2 및 Java 8 환경과 호환되는지 확인 필요
+    supportLibVersion = '27.1.1' 
+    kotlinCoreVersion = '1.3.2'
+    kotlinCoroutines = '1.3.9'
+    materialVersion = '1.3.0'
+    constraintlayoutVersion = '2.0.4'
+    lifecycle_version = '2.2.0'
+    quick_version= '2.9.50'
+    dialog_version= '3.2.1'
+    bugly_version = '3.4.4'
+    bugly_native_version = '3.9.0'
 }

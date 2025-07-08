@@ -1,7 +1,0 @@
-jdk:
-  - openjdk8  # 2칸 들여쓰기
-
-env:           # 0칸 (jdk와 같은 레벨)
-  global:      # 2칸 들여쓰기
-    ANDROID_NDK_HOME: /usr/local/android-ndk-r21d  # 4칸 들여쓰기
-    PATH: "$ANDROID_NDK_HOME:$PATH"               # 4칸 들여쓰기
