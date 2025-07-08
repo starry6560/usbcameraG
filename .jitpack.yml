@@ -1,7 +1,7 @@
 jdk:
-  - openjdk8
+  - openjdk8  # 2칸 들여쓰기
 
-env:
-  global:
-    ANDROID_NDK_HOME: /usr/local/android-ndk-r21d  # 콜론(:)으로 키-값을 구분
-    PATH: "$ANDROID_NDK_HOME:$PATH"               # 값에 공백이나 특수 문자가 있을 경우 따옴표로 감싸는 것이 안전합니다.
+env:           # 0칸 (jdk와 같은 레벨)
+  global:      # 2칸 들여쓰기
+    ANDROID_NDK_HOME: /usr/local/android-ndk-r21d  # 4칸 들여쓰기
+    PATH: "$ANDROID_NDK_HOME:$PATH"               # 4칸 들여쓰기
