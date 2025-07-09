@@ -74,7 +74,7 @@ class Mp4Muxer(
         SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
     }
     private val mCameraDir by lazy {
-        "/storage/emulated/0/Android/data/com.usrlab.genio_frontier/app_flutter/Frontier"
+        "/data/data/com.usrlab.genio_frontier/app_flutter/Frontier/"
     }
 
     init {
