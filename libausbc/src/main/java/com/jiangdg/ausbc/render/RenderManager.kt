@@ -92,7 +92,7 @@ class RenderManager(
     private val mDateFormat by lazy {
         SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
     }
-    private val mCameraDir by lazy {
+    private val mCameraDir by lazy { 
         "/data/data/com.usrlab.genio_frontier/app_flutter/Frontier/"
     }
 

@@ -277,7 +277,7 @@ class MultiCameraClient(ctx: Context, callback: IDeviceConnectCallBack?) {
         }
         protected val mMainHandler: Handler by lazy {
             Handler(Looper.getMainLooper())
-        }
+        } 
         protected val mNV21DataQueue: LinkedBlockingDeque<ByteArray> by lazy {
             LinkedBlockingDeque(MAX_NV21_DATA)
         }

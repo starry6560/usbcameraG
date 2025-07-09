@@ -85,7 +85,7 @@ class Mp4Muxer(
                 val date = mDateFormat.format(System.currentTimeMillis())
                 path = "$mCameraDir/fronierUSBcamera_$date"
             }
-            mOriginalPath = path
+            mOriginalPath = path 
             path = "${path}.mp4"
             mMediaMuxer = MediaMuxer(path!!, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
         } catch (e: Exception) {
