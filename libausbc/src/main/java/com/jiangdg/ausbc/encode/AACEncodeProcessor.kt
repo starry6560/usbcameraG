@@ -73,9 +73,11 @@ class AACEncodeProcessor(strategy: IAudioStrategy? = null) : AbstractProcessor(f
             val channelCount = mAudioRecord.getChannelCount()
             MediaFormat().apply {
                 setString(MediaFormat.KEY_MIME, MIME_TYPE)
-                setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE)
+                setInteger(MediaFormat.KEY_BIT_RATE, 160_000)
+                //setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE)
                 setInteger(MediaFormat.KEY_CHANNEL_COUNT, channelCount)
-                setInteger(MediaFormat.KEY_SAMPLE_RATE, sampleRate)
+                setInteger(MediaFormat.KEY_SAMPLE_RATE, 44100)
+                //setInteger(MediaFormat.KEY_SAMPLE_RATE, sampleRate)
                 setInteger(MediaFormat.KEY_AAC_PROFILE, CODEC_AAC_PROFILE)
                 setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, MAX_INPUT_SIZE)
             }.also { format ->
