@@ -369,7 +369,7 @@ class AACEncodeProcessor(strategy: IAudioStrategy? = null) : AbstractProcessor(f
     companion object {
         private const val TAG = "AACEncodeProcessor"
         private const val MIME_TYPE = "audio/mp4a-latm"
-        const val BIT_RATE = 32 * 1024
+        const val BIT_RATE = 160 * 1024
         private const val MAX_INPUT_SIZE = 48000
         const val CHANNEL_OUT_CONFIG = AudioFormat.CHANNEL_OUT_MONO
         private const val AUDIO_TRACK_MODE = AudioTrack.MODE_STREAM
