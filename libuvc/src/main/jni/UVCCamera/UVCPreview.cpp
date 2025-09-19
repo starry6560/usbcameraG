@@ -97,28 +97,14 @@ UVCPreview::~UVCPreview() {
 	mIsCapturing = false;
 	
 	// 2. 모든 스레드들에게 종료 신호 전송
-	pthread_cond_signal(&preview_sync);
-	pthread_cond_signal(&capture_sync);
+	pthread_cond_broadcast(&preview_sync);
+	pthread_cond_broadcast(&capture_sync);
 	
-	// 3. 스레드들이 완전히 종료될 때까지 대기
-	if (preview_thread != 0) {
-		if (pthread_join(preview_thread, NULL) != 0) {
-			LOGW("UVCPreview::~UVCPreview: failed to join preview thread");
-		}
-		preview_thread = 0;
-	}
+	// 3. 스레드들이 자연스럽게 종료될 시간 확보
+	// pthread_join 대신 시간 기반 대기 사용
+	usleep(2000000); // 2초 대기 - 스레드들이 자연 종료되도록
 	
-	if (capture_thread != 0 && mHasCapturing) {
-		if (pthread_join(capture_thread, NULL) != 0) {
-			LOGW("UVCPreview::~UVCPreview: failed to join capture thread");
-		}
-		capture_thread = 0;
-	}
-	
-	// 4. 추가 안전 대기 - 네이티브 스레드들이 완전히 정리될 시간 확보
-	usleep(500000); // 0.5초 대기
-	
-	// 5. 윈도우 리소스 정리 (뮤텍스 사용하지 않고)
+	// 4. 윈도우 리소스 정리 (뮤텍스 사용하지 않고)
 	if (mPreviewWindow) {
 		ANativeWindow_release(mPreviewWindow);
 		mPreviewWindow = NULL;
@@ -128,12 +114,12 @@ UVCPreview::~UVCPreview() {
 		mCaptureWindow = NULL;
 	}
 	
-	// 6. 프레임 데이터 정리
+	// 5. 프레임 데이터 정리
 	clearPreviewFrame();
 	clearCaptureFrame();
 	clear_pool();
 	
-	// 7. 뮤텍스 안전 파괴 - 락하지 않고 바로 파괴
+	// 6. 뮤텍스 안전 파괴 - 락하지 않고 바로 파괴
 	// 모든 스레드가 종료되었으므로 안전함
 	pthread_cond_destroy(&preview_sync);
 	pthread_mutex_destroy(&preview_mutex);
@@ -142,6 +128,10 @@ UVCPreview::~UVCPreview() {
 	pthread_mutex_destroy(&capture_mutex);
 	
 	pthread_mutex_destroy(&pool_mutex);
+	
+	// 7. 스레드 변수 초기화
+	preview_thread = 0;
+	capture_thread = 0;
 	
 	EXIT();
 }
