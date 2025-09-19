@@ -67,6 +67,9 @@ UVCPreview::UVCPreview(uvc_device_handle_t *devh)
 	previewFormat(WINDOW_FORMAT_RGBA_8888),
 	mIsRunning(false),
 	mIsCapturing(false),
+	mHasCapturing(false),         // 추가
+	preview_thread(0),            // 추가
+	capture_thread(0),            // 추가
 	captureQueu(NULL),
 	mFrameCallbackObj(NULL),
 	mFrameCallbackFunc(NULL),
@@ -98,14 +101,14 @@ UVCPreview::~UVCPreview() {
 	pthread_cond_signal(&capture_sync);
 	
 	// 3. 스레드들이 완전히 종료될 때까지 대기
-	if (preview_thread) {
+	if (preview_thread != 0) {
 		if (pthread_join(preview_thread, NULL) != 0) {
 			LOGW("UVCPreview::~UVCPreview: failed to join preview thread");
 		}
 		preview_thread = 0;
 	}
 	
-	if (capture_thread && mHasCapturing) {
+	if (capture_thread != 0 && mHasCapturing) {
 		if (pthread_join(capture_thread, NULL) != 0) {
 			LOGW("UVCPreview::~UVCPreview: failed to join capture thread");
 		}
