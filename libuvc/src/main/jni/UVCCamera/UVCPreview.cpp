@@ -67,9 +67,6 @@ UVCPreview::UVCPreview(uvc_device_handle_t *devh)
 	previewFormat(WINDOW_FORMAT_RGBA_8888),
 	mIsRunning(false),
 	mIsCapturing(false),
-	mHasCapturing(false),         // 추가
-	preview_thread(0),            // 추가
-	capture_thread(0),            // 추가
 	captureQueu(NULL),
 	mFrameCallbackObj(NULL),
 	mFrameCallbackFunc(NULL),
@@ -91,73 +88,28 @@ UVCPreview::UVCPreview(uvc_device_handle_t *devh)
 UVCPreview::~UVCPreview() {
 
 	ENTER();
-	
-	// 1. 먼저 실행 상태를 false로 설정하여 스레드들이 종료되도록 신호
-	mIsRunning = false;
-	mIsCapturing = false;
-	
-	// 2. 모든 스레드들에게 종료 신호 전송
-	pthread_cond_broadcast(&preview_sync);
-	pthread_cond_broadcast(&capture_sync);
-	
-	// 3. 스레드들이 자연스럽게 종료될 시간 확보
-	// pthread_join 대신 시간 기반 대기 사용
-	usleep(2000000); // 2초 대기 - 스레드들이 자연 종료되도록
-	
-	// 4. 윈도우 리소스 정리 (뮤텍스 사용하지 않고)
-	if (mPreviewWindow) {
+	if (mPreviewWindow)
 		ANativeWindow_release(mPreviewWindow);
-		mPreviewWindow = NULL;
-	}
-	if (mCaptureWindow) {
+	mPreviewWindow = NULL;
+	if (mCaptureWindow)
 		ANativeWindow_release(mCaptureWindow);
-		mCaptureWindow = NULL;
-	}
-	
-	// 5. 프레임 데이터 정리
+	mCaptureWindow = NULL;
 	clearPreviewFrame();
 	clearCaptureFrame();
 	clear_pool();
-	
-	// 6. 뮤텍스 안전 파괴 - 락하지 않고 바로 파괴
-	// 모든 스레드가 종료되었으므로 안전함
-	pthread_cond_destroy(&preview_sync);
+	pthread_mutex_lock(&preview_mutex);
+	pthread_mutex_unlock(&preview_mutex);
 	pthread_mutex_destroy(&preview_mutex);
-	
-	pthread_cond_destroy(&capture_sync);
+	pthread_cond_destroy(&preview_sync);
+	pthread_mutex_lock(&capture_mutex);
+	pthread_mutex_unlock(&capture_mutex);
 	pthread_mutex_destroy(&capture_mutex);
-	
+	pthread_cond_destroy(&capture_sync);
+	// 释放 capture_clock_aatr
+    // pthread_condattr_destroy(&capture_clock_attr);
 	pthread_mutex_destroy(&pool_mutex);
-	
-	// 7. 스레드 변수 초기화
-	preview_thread = 0;
-	capture_thread = 0;
-	
 	EXIT();
 }
-// UVCPreview::~UVCPreview() {
-
-// 	ENTER();
-// 	if (mPreviewWindow)
-// 		ANativeWindow_release(mPreviewWindow);
-// 	mPreviewWindow = NULL;
-// 	if (mCaptureWindow)
-// 		ANativeWindow_release(mCaptureWindow);
-// 	mCaptureWindow = NULL;
-// 	clearPreviewFrame();
-// 	clearCaptureFrame();
-// 	clear_pool();
-// 	pthread_mutex_lock(&preview_mutex);
-// 	pthread_mutex_destroy(&preview_mutex);
-// 	pthread_cond_destroy(&preview_sync);
-// 	pthread_mutex_lock(&capture_mutex);
-// 	pthread_mutex_destroy(&capture_mutex);
-// 	pthread_cond_destroy(&capture_sync);
-// 	// 释放 capture_clock_aatr
-//     // pthread_condattr_destroy(&capture_clock_attr);
-// 	pthread_mutex_destroy(&pool_mutex);
-// 	EXIT();
-// }
 
 /**
  * get uvc_frame_t from frame pool

@@ -229,8 +229,17 @@ class CameraUVC(ctx: Context, device: UsbDevice) : MultiCameraClient.ICamera(ctx
         postStateEvent(ICameraStateCallBack.State.CLOSED)
         isPreviewed = false
         releaseEncodeProcessor()
-        mUvcCamera?.destroy()
-        mUvcCamera = null
+        try {
+            mUvcCamera?.stopPreview()
+            Thread.sleep(100) // Give time for preview to stop
+            mUvcCamera?.close()
+            Thread.sleep(50) // Give time for resources to be released
+            mUvcCamera?.destroy()
+        } catch (e: Exception) {
+            Logger.e(TAG, "Error during camera close", e)
+        } finally {
+            mUvcCamera = null
+        }
         if (Utils.debugCamera) {
             Logger.i(TAG, " stop preview, name = ${device.deviceName}")
         }
