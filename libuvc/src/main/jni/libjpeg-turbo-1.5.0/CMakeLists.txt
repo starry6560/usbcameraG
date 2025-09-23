@@ -14,6 +14,13 @@ string(REPLACE "." ";" VERSION_TRIPLET ${VERSION})
 list(GET VERSION_TRIPLET 0 VERSION_MAJOR)
 list(GET VERSION_TRIPLET 1 VERSION_MINOR)
 list(GET VERSION_TRIPLET 2 VERSION_REVISION)
+
+f(ANDROID)
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,max-page-size=16384")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,max-page-size=16384")
+    message(STATUS "Android build detected: Adding 16KB page size support for libjpeg-turbo")
+endif()
+
 function(pad_number NUMBER OUTPUT_LEN)
   string(LENGTH "${${NUMBER}}" INPUT_LEN)
   if(INPUT_LEN LESS OUTPUT_LEN)
