@@ -288,7 +288,7 @@ class MultiCameraClient(ctx: Context, callback: IDeviceConnectCallBack?) {
             SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault())
         }
         protected val mCameraDir by lazy {
-             "/data/data/com.usrlab.genio_frontier/app_flutter/Frontier/"
+             "/data/data/com.usrlab.genio_academy_standalone/app_flutter/academy/"
         }
 
         override fun handleMessage(msg: Message): Boolean {
