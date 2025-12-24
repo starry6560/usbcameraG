@@ -68,7 +68,7 @@ $ make && make install
 \endcode
 
 \section Example
-In this example, libuvc is used to acquire images in a 30 fps, 640x480
+In this example, libuvc is used to acquire images in a 30 fps, 640x360
 YUV stream from a UVC device such as a standard webcam.
 
 \include example.c

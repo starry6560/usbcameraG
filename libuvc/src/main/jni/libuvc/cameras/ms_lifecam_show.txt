@@ -12,7 +12,7 @@ Device Descriptor:
   idProduct          0x0729 
   bcdDevice            1.00
   iManufacturer           1 Microsoft
-  iProduct                2 Microsoft® LifeCam Show(TM)
+  iProduct                2 Microsoftï¿½ LifeCam Show(TM)
   iSerial                 0 
   bNumConfigurations      1
   Configuration Descriptor:
@@ -33,7 +33,7 @@ Device Descriptor:
       bFunctionClass         14 Video
       bFunctionSubClass       3 Video Interface Collection
       bFunctionProtocol       0 
-      iFunction               2 Microsoft® LifeCam Show(TM)
+      iFunction               2 Microsoftï¿½ LifeCam Show(TM)
     Interface Descriptor:
       bLength                 9
       bDescriptorType         4
@@ -43,7 +43,7 @@ Device Descriptor:
       bInterfaceClass        14 Video
       bInterfaceSubClass      1 Video Control
       bInterfaceProtocol      0 
-      iInterface              2 Microsoft® LifeCam Show(TM)
+      iInterface              2 Microsoftï¿½ LifeCam Show(TM)
       VideoControl Interface Descriptor:
         bLength                13
         bDescriptorType        36
@@ -190,7 +190,7 @@ Device Descriptor:
         bmCapabilities                   0x00
           Still image unsupported
         wWidth                            640
-        wHeight                           480
+        wHeight                           360
         dwMinBitRate                196608000
         dwMaxBitRate                196608000
         dwMaxVideoFrameBufferSize     3840000
@@ -266,7 +266,7 @@ Device Descriptor:
         wWidth( 0)                        352
         wHeight( 0)                       288
         wWidth( 1)                        640
-        wHeight( 1)                       480
+        wHeight( 1)                       360
         wWidth( 2)                        320
         wHeight( 2)                       240
         wWidth( 3)                        176
@@ -323,7 +323,7 @@ Device Descriptor:
         bmCapabilities                   0x00
           Still image unsupported
         wWidth                            640
-        wHeight                           480
+        wHeight                           360
         dwMinBitRate                196608000
         dwMaxBitRate                196608000
         dwMaxVideoFrameBufferSize     3840000
@@ -444,7 +444,7 @@ Device Descriptor:
         wWidth( 0)                        352
         wHeight( 0)                       288
         wWidth( 1)                        640
-        wHeight( 1)                       480
+        wHeight( 1)                       360
         wWidth( 2)                        320
         wHeight( 2)                       240
         wWidth( 3)                        176
@@ -615,7 +615,7 @@ Device Descriptor:
       bFunctionClass          1 Audio
       bFunctionSubClass       2 Streaming
       bFunctionProtocol       0 
-      iFunction               2 Microsoft® LifeCam Show(TM)
+      iFunction               2 Microsoftï¿½ LifeCam Show(TM)
     Interface Descriptor:
       bLength                 9
       bDescriptorType         4
@@ -625,7 +625,7 @@ Device Descriptor:
       bInterfaceClass         1 Audio
       bInterfaceSubClass      1 Control Device
       bInterfaceProtocol      0 
-      iInterface              2 Microsoft® LifeCam Show(TM)
+      iInterface              2 Microsoftï¿½ LifeCam Show(TM)
       AudioControl Interface Descriptor:
         bLength                 9
         bDescriptorType        36

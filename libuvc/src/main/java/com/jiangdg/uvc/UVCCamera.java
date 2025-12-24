@@ -127,7 +127,7 @@ public class UVCCamera {
     protected long mControlSupports;			// カメラコントロールでサポートしている機能フラグ
     protected long mProcSupports;				// プロセッシングユニットでサポートしている機能フラグ
     protected int mCurrentFrameFormat = FRAME_FORMAT_MJPEG;
-	protected int mCurrentWidth = 640, mCurrentHeight = 480;
+	protected int mCurrentWidth = 640, mCurrentHeight = 360;
 	protected float mCurrentBandwidthFactor = DEFAULT_BANDWIDTH;
     protected String mSupportedSize;
     protected List<Size> mCurrentSizeList;

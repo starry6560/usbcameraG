@@ -152,7 +152,7 @@ Device Descriptor:
         bmCapabilities                   0x00
           Still image unsupported
         wWidth                            640
-        wHeight                           480
+        wHeight                           360
         dwMinBitRate                383976960
         dwMaxBitRate                383976960
         dwMaxVideoFrameBufferSize      614400

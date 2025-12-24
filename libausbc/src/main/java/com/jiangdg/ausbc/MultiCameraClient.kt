@@ -1003,7 +1003,7 @@ class MultiCameraClient(ctx: Context, callback: IDeviceConnectCallBack?) {
         private const val MSG_CAPTURE_STREAM_START = 0x06
         private const val MSG_CAPTURE_STREAM_STOP = 0x07
         private const val DEFAULT_PREVIEW_WIDTH = 640
-        private const val DEFAULT_PREVIEW_HEIGHT = 480
+        private const val DEFAULT_PREVIEW_HEIGHT = 360
         const val MAX_NV21_DATA = 5
         const val CAPTURE_TIMES_OUT_SEC = 3L
     }
